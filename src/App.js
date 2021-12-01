@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import News from "./News";
+import NewsContainer from "./NewsContainer";
 
 function App() {
+  const [source, setSource] = useState("https://dev.to/feed/");
+  const [saved, setSaved] = useState([]);
+
+  const handleChange = (e) => {
+    setSource(e.target.value);
+  }
+
+  const handleSave = (item) => {
+    setSaved([...saved, item]);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <input type="text" value={source} onChange={handleChange} />
+      <NewsContainer url={source} onSave={handleSave} />
+      <h1>Saved news</h1>
+      <News news={saved} />
     </div>
   );
 }
